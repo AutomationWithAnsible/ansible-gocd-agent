@@ -31,7 +31,7 @@
    - restart_gocd_agent
   register: gocd_agent_version_install
 
-- name: install | go-server configuraiton file
+- name: install | go-agent configuraiton file
   template: 
     src=go-agent.j2
     dest="/etc/default/go-agent"

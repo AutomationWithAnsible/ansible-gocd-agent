@@ -1,2 +1,24 @@
 ---
-# defaults file for ansible-gocd-agent
+# defaults file for ansible-gocd-server
+gocd_agent_apt_repo              : http://dl.bintray.com/gocd/gocd-deb/
+
+gocd_agent_version              : "latest" 
+
+gocd_agent_wait_for_timeout     : 180
+
+gocd_server_host : localhost
+
+gocd_server_port : 8153
+
+gocd_agent_work_dir :  "/var/lib/go-agent"
+
+gocd_agent_user                 : go
+
+gocd_agent_group                : go
+
+gocd_server_java_version         : "java-8-oracle"
+
+gocd_server_java_home            : "/usr/lib/jvm/{{gocd_server_java_version}}/jre"
+
+gocd_agent_addtional_parameters : ""
+

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+{{GOCD_AGENT_ADDITIONAL_DEFAULTS}}
+
+export GO_SERVER={{ gocd_server_host }}
+export GO_SERVER_PORT={{ GOCD_SERVER_PORT }}
+export JAVA_HOME={{ gocd_server_java_home }}
+export AGENT_WORK_DIR={{gocd_agent_work_dir}}
+DAEMON=Y
+
+ 

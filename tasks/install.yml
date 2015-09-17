@@ -1,0 +1,42 @@
+---
+
+- name: install | install thoughtworks apt-repo
+  apt_repository: 
+   repo='deb {{gocd_agent_apt_repo}} /'
+   state=present
+  register: thoughtworks_repo_install
+
+- name: install | Update apt cache repo 
+  apt:
+    update_cache=yes
+  when: thoughtworks_repo_install | changed
+
+- name: install | apt install go-agent latest available
+  apt: 
+   pkg="go-agent"
+   state="latest"
+   force=yes
+  when: gocd_agent_version | lower == "latest"
+  notify:
+   - restart_gocd_agent
+  register: gocd_agent_latest_install
+
+- name: install | apt install go-agent specific version
+  apt: 
+   pkg="go-agent={{ gocd_agent_version }}"
+   state="present"
+   force=yes
+  when: gocd_agent_version | lower != "latest"
+  notify:
+   - restart_gocd_agent
+  register: gocd_agent_version_install
+
+- name: install | go-server configuraiton file
+  template: 
+    src=go-agent.j2
+    dest="/etc/default/go-agent"
+    mode=0644
+    group={{ gocd_agent_group }}
+    owner={{ gocd_agent_user }}
+  notify:
+   - restart_gocd_agent

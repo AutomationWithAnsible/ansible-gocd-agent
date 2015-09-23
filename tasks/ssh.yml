@@ -1,0 +1,27 @@
+---
+
+- name: ssh | Make sure .ssh directory exists
+  file: 
+    dest="{{gocd_agent_home_dir}}/.ssh"
+    state=directory
+    owner={{gocd_agent_user}}
+
+- name: ssh | Copy private key
+  copy:
+    content="{{ gocd_agent_key }}"
+    dest={{gocd_agent_home_dir}}/.ssh/id_rsa
+    owner={{gocd_agent_user}}
+    group={{gocd_agent_group}}
+    mode=0600
+  when: gocd_agent_key != ""
+
+- name: ssh | Setup SSH hosts
+  lineinfile: 
+    line="{{item}}"
+    insertafter="EOF"
+    state="present"
+    create="yes"
+    mode="0644"
+    dest="{{gocd_agent_home_dir}}/.ssh/known_hosts"
+    owner="{{gocd_agent_user}}"
+  with_items: gocd_agent_fingerprints

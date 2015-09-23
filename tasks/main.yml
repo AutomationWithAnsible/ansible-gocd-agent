@@ -3,3 +3,5 @@
 - include: checks.yml
 
 - include: install.yml
+
+- include: ssh.yml
